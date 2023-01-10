@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse
+from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
 
 # when a request comes to ask for index html return the render
@@ -30,7 +31,11 @@ def login(request):
 
 
 def register(request):
-    return render(request, "register.html")
+
+    form = UserCreationForm()
+
+    context = {'form': form}
+    return render(request, "register.html", context)
 
 
 def wahati(request):
