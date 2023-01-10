@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container">
+  <h5 class="py-2">
+    Choose from The Menu
+  </h5>
+
+  <form action="" method="post" class="form-inline">
+    <div class="d-flex flex-row ">
+
+      <div class="form-group mb-2 px-2 w-50">
+        <select class="form-control">
+          <option>ساندوتش فول سادة</option>
+          <option>ساندوتش طعميه</option>
+          <option>ساندوتش طعميه مخصوص</option>
+          <option>ساندوتش بطاطس طجينه</option>
+          <option>ساندوتش بطاطس كاتشب</option>
+        </select>
+      </div>
+      <div class="form-group px-2 w-auto  ">
+        <input type="text" class="form-control" placeholder="Qty">
+      </div>
+
+      <a href="" type="submit" class="btn btn-dark mb-2 w-auto">Add</a>
+    </div>
+  </form>
+
+
+
+  <div class="table-responsive ">
+    <table class="table table-sm table-bordered table-light align-items-center justify-content-center w-75">
+      <thead>
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Price</th>
+          <th scope="col">Qty</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="">
+          <td scope="row">سندوتش فول سادة</td>
+          <td>5.5</td>
+          <td>
+            1 </td>
+        </tr>
+        <tr class="">
+          <td scope="row">Item</td>
+          <td>Item</td>
+          <td>Item</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+{% endblock %}

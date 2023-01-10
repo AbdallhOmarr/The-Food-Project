@@ -1,0 +1,14 @@
+.showcase {
+    max-width: 200%;
+    max-height: 200%;
+    object-fit: contain;
+}
+
+.cardTitle{
+    font-family: 'Aref Ruqaa', serif;
+    font-size: xxx-large;
+}
+.cardTitle2{
+    font-family: 'Aref Ruqaa', serif;
+    /* font-size: xx-large; */
+}

@@ -16,9 +16,17 @@ Including another URLconf
 
 ## GLOBAL (project)
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('',include('polls.urls'))
+    path('', include('polls.urls')),
+    path('resturants/', include('polls.urls')),
+    path('orders/', include('polls.urls')),
+    path('cart/', include('polls.urls')),
+    path('about/', include('polls.urls')),
+    path('login/', include('polls.urls')),
+    path('register/', include('polls.urls')),
+    path('wahati/', include('polls.urls')),
+
 ]

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}About The Food Project{% endblock %}
+
+{% block body %}
+  <!-- boxes -->
+
+  <section class="p-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md">
+
+          <div class="card bg-light text-dark">
+            <div class="card-body text-center">
+              <div class="h1 mb-3">
+                <img src="{% static 'imgs/wahati.png'%}" class="img-thumbnail " alt="">
+              </div>
+              <p class="cardTitle">الواحاتي</p>
+              <a href="{% url 'wahati' %}" class="btn btn-dark ms-auto">Order Now</a>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md">
+
+          <div class="card bg-light text-dark">
+            <div class="card-body text-center">
+              <div class="h1 mb-3">
+                <img src="{% static 'imgs/abomazen.png'%}" class="img-thumbnail " alt="">
+              </div>
+              <p class="cardTitle">ابو مازن</p>
+              <a href="" class="btn btn-dark ms-auto">Order Now</a>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md">
+
+          <div class="card bg-light text-dark">
+            <div class="card-body text-center">
+              <div class="h1 mb-3">
+                <img src="{% static 'imgs/waly elsham.jpg'%}" class="img-thumbnail " alt="">
+              </div>
+              <p class="cardTitle">والى الشام</p>
+              <a href="" class="btn btn-dark ms-auto">Order Now</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
