@@ -85,8 +85,8 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'foodproject',
-        'USER': 'abdalla',
+        'NAME': 'polls',
+        'USER': 'root',
         'PASSWORD': '123456',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
