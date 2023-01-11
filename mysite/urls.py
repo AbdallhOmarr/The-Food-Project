@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+
+
     path("admin/", admin.site.urls),
     path('', include('polls.urls')),
     path('resturants/', include('polls.urls')),
@@ -26,7 +28,8 @@ urlpatterns = [
     path('cart/', include('polls.urls')),
     path('about/', include('polls.urls')),
     path('login/', include('polls.urls')),
+    path('logout/', include('polls.urls')),
+
     path('register/', include('polls.urls')),
-    path('wahati/', include('polls.urls')),
 
 ]
