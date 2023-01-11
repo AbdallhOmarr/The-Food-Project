@@ -1,5 +1,7 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+
 # Create your views here.
 
 # when a request comes to ask for index html return the render
@@ -33,7 +35,17 @@ def login(request):
 def register(request):
 
     form = UserCreationForm()
-
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            # login(request,user)
+            redirect('index')
+        else:
+            pass
+            # messages.error(request, "An Error occured during registeration!")
     context = {'form': form}
     return render(request, "register.html", context)
 
