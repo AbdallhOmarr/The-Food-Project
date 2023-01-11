@@ -43,7 +43,7 @@ def loginView(request):
         else:
             messages.error(request, "Password is incorrect")
 
-    context = {}
+    context = {"key": "login"}
     return render(request, "login_register.html", context)
 
 
@@ -67,7 +67,7 @@ def register(request):
         else:
             pass
             # messages.error(request, "An Error occured during registeration!")
-    context = {'form': form}
+    context = {'form': form, "key": "register"}
     return render(request, "login_register.html", context)
 
 

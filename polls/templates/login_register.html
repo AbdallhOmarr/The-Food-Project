@@ -5,6 +5,8 @@
 {% block body %}
 <div class="container">
 
+    {% if key == "login" %}
+    <div>
     <form action="" method="post">
         {% csrf_token %}
 
@@ -14,12 +16,19 @@
         <input type="submit" value="Login">
 
     </form>
-<!-- 
-    registeration form 
+    </div>
+
+    <div>
+        <a href="{% url 'register' %}" class="">Not a User? Register Now.</a>
+    </div>
+    {% elif key == "register" %}
+    <div> 
     <form action="" method="post">
         {% csrf_token %}
         {{form}}
         <input type="submit" value="Register">
-    </form> -->
+    </form>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
