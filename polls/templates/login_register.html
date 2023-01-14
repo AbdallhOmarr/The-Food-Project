@@ -3,31 +3,35 @@
 {% block title %}About The Food Project{% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container py-2">
 
     {% if key == "login" %}
     <div>
-    <form action="" method="post">
-        {% csrf_token %}
+        <form action="" method="post">
+            {% csrf_token %}
 
-        <input type="text" name="username" placeholder="Enter Username">
-        <input type="password" name="password" placeholder="Password">
-        
-        <input type="submit" value="Login">
+            <input type="text" name="username" placeholder="Enter Username">
+            <input type="password" name="password" placeholder="Password">
 
-    </form>
+            <input type="submit" value="Login">
+
+        </form>
+
+    </div>
+    <div>
+        {% include 'message.html' %}
     </div>
 
     <div>
         <a href="{% url 'register' %}" class="">Not a User? Register Now.</a>
     </div>
     {% elif key == "register" %}
-    <div> 
-    <form action="" method="post">
-        {% csrf_token %}
-        {{form}}
-        <input type="submit" value="Register">
-    </form>
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" value="Register">
+        </form>
     </div>
     {% endif %}
 </div>

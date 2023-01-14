@@ -1,101 +1,95 @@
 {% load static %}
 
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
-    />
 
-    <link rel="stylesheet" href="{% static 'styles.css' %}" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+<head>
+  <meta charset="UTF-8" />
+  <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <title>{% block title %} The Food Project {% endblock %}</title>
-  </head>
+  <link rel="stylesheet" href="{% static 'styles.css' %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
 
-  <body>
-    <!-- Navbar  -->
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-      <div class="container">
-        <a href="/" class="navbar-brand">The Food Project</a>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet" />
 
-        <button
-          class="navbar-toggler"
-          type=" button "
-          data-bs-toggle="collapse"
-          data-bs-target="#navmenu"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+  <script src="{% static 'main.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <title>{% block title %} The Food Project {% endblock %}</title>
 
-        <div class="collapse navbar-collapse" id="navmenu">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a href="/restaurants" class="nav-link">Restaurants</a>
-            </li>
-            <li class="nav-item">
-              <a href="/orders" class="nav-link">Orders</a>
-            </li>
-            <li class="nav-item">
-              <a href="/about" class="nav-link">About</a>
-            </li>
+</head>
 
-            {% if request.user.is_authenticated %}
-            <li class="nav_item">              
-              <a href="" class="nav-link">Hello, {{request.user.username}}</a>
-            </li>
+<body>
+  <!-- Navbar  -->
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container">
+      <a href="/" class="navbar-brand">The Food Project</a>
 
-            <li class="nav-item">
+      <button class="navbar-toggler" type=" button " data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a href="/restaurants" class="nav-link">Restaurants</a>
+          </li>
+          <li class="nav-item">
+            <a href="/orders" class="nav-link">Orders</a>
+          </li>
+          <li class="nav-item">
+            <a href="/cart" class="nav-link">My Cart</a>
+          </li>
+
+          <li class="nav-item">
+            <a href="/about" class="nav-link">About</a>
+          </li>
+
+          {% if request.user.is_authenticated %}
+          <li class="nav_item">
+            <a href="" class="nav-link">Hello, {{request.user.username}}</a>
+          </li>
+
+          <li class="nav-item">
             <a href="/logout" class="nav-link">Logout</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-              <a href="/login" class="nav-link">Login</a>
-            </li>
-            {% endif %}
-          </ul>
-        </div>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a href="/login" class="nav-link">Login</a>
+          </li>
+          {% endif %}
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
 
-          <li>{{message}}</li>
 
-      {% endfor %}
 
-    </ul>
-    {% endif %} 
-    
-    
-    
-    
-    {% block body %} 
-    Default 
-    {% endblock %}
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+  {% block body %}
+  Default
+  {% endblock %}
+
+  <script>
+    // suppose the `id` attribute of element is `message_container`.
+    var message_ele = document.getElementById("msg");
+
+    setTimeout(function () {
+      message_ele.style.display = "none";
+    }, 3000);
+// Timeout is 3 sec, you can change it
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</body>
+
 </html>

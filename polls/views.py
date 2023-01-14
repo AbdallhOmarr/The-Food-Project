@@ -4,6 +4,9 @@ from django.contrib import messages
 from . import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from .models import Resturants, Elements, OrdersElements, Orders, Votes
+import time
+
 # Create your views here.
 
 # when a request comes to ask for index html return the render
@@ -15,14 +18,79 @@ def about(request):
 
 
 def restaurants(request):
-    return render(request, "restaurants.html")
+    form = forms.AddRestaurantForm()
+    if request.method == "POST":
+        print(request.FILES)
+        form = forms.AddRestaurantForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            messages.success(request, "Data is valid")
+            form.save()
+
+            messages.success(request, "Restaurant Saved")
+
+            return redirect("restaurants")
+        else:
+            messages.error(request, "Enter a valid data")
+
+    try:
+        restaurants_objs = Resturants.objects.all()
+        # total_votes = Votes.objects.filter(user=request.user,restaurant=restaurants_objs)
+        context = {"form": form, "restaurants": restaurants_objs,
+                   "len_restaurants": len(restaurants_objs)}
+
+    except:
+        messages.error(request, "couldn't get restaurants")
+        context = {"form": form}
+
+    return render(request, "restaurants.html", context)
 
 
 def orders(request):
-    return render(request, "orders.html")
+    print("Order Started")
+    if request.method == "POST":
+        print(list(request.POST.items()))
+        restaurant_id = request.POST.get("restaurant")
+        print(f"Restaurant id:{restaurant_id}")
+        restaurant = Resturants.objects.get(id=restaurant_id)
+        # create an order
+        try:
+            order = Orders.objects.create(
+                resturant=restaurant)
+
+        except:
+            pass
+
+    context = {}
+    return render(request, 'orders.html', context)
 
 
-def cart(request):
+def menu(request, pk):
+    restaurant = Resturants.objects.get(id=pk)
+
+    items = Elements.objects.filter(resturant=restaurant)
+
+    print(f"items: {items}")
+    print(f"type of items: {type(items)}")
+    form = forms.AddItemsForm()
+    if request.method == 'POST':
+        try:
+            item = Elements.objects.create(
+                name=request.POST.get('name'),
+                price=request.POST.get('price'),
+                resturant=restaurant
+            )
+            messages.success(request, "Item saved")
+            return redirect("menu", pk=pk)
+        except:
+            messages.error(request, "Couldn't save the item")
+
+    context = {'restaurant': restaurant, "form": form, "items": items}
+    return render(request, "menu.html", context)
+
+
+def cart(request, pk):
+
     return render(request, "cart.html")
 
 

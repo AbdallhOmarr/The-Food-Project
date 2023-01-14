@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "polls.apps.PollsConfig"
+    "polls.apps.PollsConfig",
+    'rest_framework',
 
 ]
 
@@ -86,8 +87,8 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'foodproject',  # polls
-        'USER': 'abdalla',  # root
+        'NAME': 'polls',  # polls
+        'USER': 'root',  # root
         'PASSWORD': '123456',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
@@ -129,3 +130,7 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'polls/static')
+MEDIA_URL = '/media/'

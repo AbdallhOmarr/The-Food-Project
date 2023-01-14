@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}About The Food Project{% endblock %}
+
+{% block body %}
+
+<!-- boxes -->
+<div class="container py-2">
+  <div>
+    <label for="">Add a New Restaurant</label>
+  </div>
+  <div>
+    <form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{form}}
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+
+  <div>
+    {% include 'message.html' %}
+  </div>
+</div>
+<div class="container">
+  <hr>
+</div>
+<section class="p-5">
+
+  <div class="container">
+
+
+    <div class="row text-center">
+      {% for restaurant in restaurants %}
+
+      <div class="col-md">
+
+        <div class="card bg-light text-dark">
+          <div class="card-body text-center">
+            <div class="h1 mb-1">
+              <img src="{{restaurant.logo.url}}" class="img-thumbnail w-auto h-auto" alt="">
+            </div>
+            <p class="cardTitle">{{restaurant.name}}</p>
+            <p class="cardTitle">{{restaurant.phone_number}}</p>
+
+
+            <form>
+              <input type="text" id="number-{{restaurant.id}}" value="0" readonly="readonly" />
+              {% comment %} <label id="number-{{forloop.counter}}" value=0>0</label> {% endcomment %}
+              <input type="button" id="button-{{restaurant.id}}" onclick="incrementValue({{restaurant.id}})"
+                value="Vote" />
+            </form>
+            <a href="{% url 'menu' restaurant.id %}" id="link-{{restaurant.id}}" class="btn btn-dark ms-auto">Order
+
+              Now</a>
+            <a href="{% url 'menu' ${(restaurants[i].id).toString()} %}" id="link-${restaurants[i].id}"
+              class="btn btn-dark ms-auto">Order Now</a>
+
+          </div>
+        </div>
+
+      </div>
+
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<script>
+  {% for h in restaurants %}
+  document.getElementById("link-{{h.id}}").style.visibility = "hidden";
+  {% endfor %}
+  console.log("hide button")
+
+</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+
+  function incrementValue(h) {
+    var value = parseInt(document.getElementById('number-' + h).value, 10);
+    value = isNaN(value) ? 0 : value;
+    value++;
+    document.getElementById('number-' + h).value = value;
+
+    if (value == 3) {
+      axios.defaults.xsrfCookieName = 'csrftoken';
+      axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+
+      axios({
+        method: 'post',
+        baseURL: window.location.origin,
+        url: 'api/addData',
+        data: {
+          resturant: h
+        },
+        responseType: 'json',
+      })
+        .then(function (response) {
+          console.log(' success');
+        })
+        .catch(function (error) {
+          console.log(' error=', error.message);
+        });
+
+
+      document.getElementById("link-" + h).style.visibility = "visible";
+
+      console.log("Order started");
+
+    }
+  }
+</script>
+<script>
+
+</script>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}{{restaurant.name}}'s Menu{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div>
+        <label for="">Restaurant Name:{{restaurant.name}}</label>
+        <label for="">Restaurant Phone Number:{{restaurant.phone_number}}</label>
+        <hr>
+    </div>
+    <div>
+        <label for="">Add an Item to the Restaurant Menue</label>
+        <div>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form}}
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div>
+            {% include 'message.html' %}
+        </div>
+        <hr>
+    </div>
+
+    <div>
+        {% for item in items %}
+        <div>
+            <a href="" onclick ="">{{item.name}} - {{item.price}} </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
