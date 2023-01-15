@@ -4,8 +4,55 @@
 
 {% block body %}
 <div class="container">
+    <div>
+        <label for="">Add a New Restaurant</label>
+      </div>
+      <div>
+        <form action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{form}}
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+    
+      <div>
+        {% include 'message.html' %}
+      </div>
+  </div>
+<div class="container">
     <div id="restaurant-rows" class="py-4"></div>
 </div>
+<script>
+    function checkVote(restaurantID,currentVote){
+        if (currentVote >= 3) {
+            axios.defaults.xsrfCookieName = 'csrftoken';
+            axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+
+            axios({
+                method: 'post',
+                baseURL: window.location.origin,
+                url: 'api/addData',
+                data: {
+                resturant: restaurantID
+                },
+                responseType: 'json',
+            })
+                .then(function (response) {
+                console.log(' success');
+                })
+                .catch(function (error) {
+                console.log(' error=', error.message);
+                });
+
+
+            document.getElementById("link-" + restaurantID).style.visibility = "visible";
+
+            console.log("Order started");
+
+        }
+
+    }
+</script>
 <script>
     async function updateVotes(){
         const response1 = await fetch('{% url "restaurantsData" %}');
@@ -31,6 +78,20 @@
             
             }
             document.querySelector(`#number-${restaurants[i].id}`).innerHTML = restaurantVote
+            if( restaurants[i].current_vote>=3){
+                let linkTag = await document.querySelector(`#link-${restaurants[i].id}`)
+                console.log("Votes >=3")
+                if (linkTag){
+                    console.log("visible")
+                    linkTag.classList.toggle('hideBtn')
+                }
+
+            }
+            var baseUrl = window.location.origin; // gets the base URL of the current page
+            let linkTag = document.querySelector(`#link-${restaurants[i].id}`)
+            linkTag.href = baseUrl + '/menu/' + restaurants[i].id + '/'; // change the href attribute
+
+
 
     }}
 </script>
@@ -65,8 +126,7 @@
 
                     }}
                 );
-
-
+            
 }
 
 
@@ -88,6 +148,7 @@
         const response2 = await fetch("{% url 'voteGET'%}")
         const votesData = await response2.json();
         for (var i = 0; i < restaurants.length; i++) {
+            
             let restaurantVote;
             //get votes for restaurant
             let restaurantVoteArray = []
@@ -115,6 +176,7 @@
             // Add the restaurant details to the card
             var cardBody = document.createElement("div");
             cardBody.classList.add("card-body", "text-center");
+
             cardBody.innerHTML = `
               <div class="h1 mb-1">
                 <img src="${restaurants[i].logo}" class="img-thumbnail logo-size" alt="">
@@ -124,7 +186,14 @@
               <form>
                 <input type="text" id="number-${restaurants[i].id}" value="${restaurants[i].current_vote}" readonly="readonly" />
                 <input type="button" id="button-${restaurants[i].id}" onclick="incrementValue(${userID},${restaurants[i].id})" value="Vote" />
+                
               </form>
+
+              <a href="" id="link-${restaurants[i].id}"
+
+              class="btn btn-dark ms-auto hideBtn">Order Now</a>
+
+
             `;
             card.appendChild(cardBody);
     
@@ -147,8 +216,11 @@
                 row.classList.add("row");
 
             }
+
+
         }  
         container.appendChild(row);
+        await updateVotes();
 
     }
     getData();
@@ -156,4 +228,5 @@
  
     // Add the remaining row to the container
 </script>
+
 {% endblock %}

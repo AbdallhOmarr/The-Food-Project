@@ -16,6 +16,7 @@ import time
 def about(request):
     return render(request, 'about.html')
 
+
 def restaurants(request):
     form = forms.AddRestaurantForm()
     if request.method == "POST":

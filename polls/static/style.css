@@ -24,3 +24,7 @@
     height: 300px;
 
 }
+
+.hideBtn{
+    visibility: hidden;
+}

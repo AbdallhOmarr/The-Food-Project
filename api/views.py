@@ -24,7 +24,7 @@ def get_restaurants_data(request):
 
 
 @api_view(['POST'])
-def addData(request):
+def create_new_order(request):
     print("POST method")
     seralizer = OrderSerializer(data=request.data)
     if seralizer.is_valid():
@@ -68,3 +68,7 @@ def update_restaurant_vote(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={"error": "vote already exists"})
+
+
+
+## send and recieve any type of data
