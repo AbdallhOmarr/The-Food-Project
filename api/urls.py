@@ -7,5 +7,6 @@ urlpatterns = [
     path('getRestaurants', views.get_restaurants_data, name="restaurantsData"),
     path('addVotes', views.add_votes, name="votePOST"),
     path('getVotes', views.get_votes_data, name="voteGET"),
+    path('updateVotes', views.update_restaurant_vote, name="votePUT"),
 
 ]

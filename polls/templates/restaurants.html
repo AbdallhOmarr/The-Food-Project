@@ -7,6 +7,71 @@
     <div id="restaurant-rows" class="py-4"></div>
 </div>
 <script>
+    async function updateVotes(){
+        const response1 = await fetch('{% url "restaurantsData" %}');
+        const restaurants = await response1.json();
+        const response2 = await fetch("{% url 'voteGET'%}")
+        const votesData = await response2.json();
+        for (var i = 0; i < restaurants.length; i++) {
+            let restaurantVote;
+            //get votes for restaurant
+            let restaurantVoteArray = []
+            votesData.forEach(item=>{
+                if(item.restaurant == restaurants[i].id) restaurantVoteArray.push(item)
+            })
+            console.log("resturant votes array")
+            if(restaurantVoteArray.length === 0) {
+                console.log("resturant vote array is 0")
+                restaurantVote =0;
+            } else {
+                console.log("resturant vote array isnot 0")
+
+                restaurantVote = restaurantVoteArray[0].restaurant;
+                
+            
+            }
+            document.querySelector(`#number-${restaurants[i].id}`).innerHTML = restaurantVote
+
+    }}
+</script>
+
+<script>
+    async function incrementValue(userID,restaurantID){
+        const data = {
+            user: userID,
+            restaurant: restaurantID
+        };
+
+        console.log(data)
+        postData('{% url "votePOST" %}', data)
+            .then((data) => { console.log(data); }) // JSON from `response.json()` call
+            .catch((error) => { console.error(error); });
+
+        const data2 = {
+            id: restaurantID,
+            user:userID
+        };
+
+        console.log(data2)
+        await putData('{% url "votePUT" %}', data2)
+            .then(
+                (response) => {
+                    if (response.error == 'vote already exists') {
+                        alert("You have already voted for this restaurant!");
+                    } else {
+                        console.log(response);
+                        console.log("Response above")
+                        location.reload();
+
+                    }}
+                );
+
+
+}
+
+
+</script>
+<script>
     // Get the container element for the rows
     var container = document.getElementById("restaurant-rows");
 
@@ -15,7 +80,6 @@
     row.classList.add("row");
     // Create a counter to keep track of the number of restaurants in the current row
     var counter = 0;
-    {% comment %} import { reverse } from 'django-urls'; {% endcomment %}
     async function getData(){
         const response1 = await fetch('{% url "restaurantsData" %}');
         const restaurants = await response1.json();
@@ -58,7 +122,7 @@
               <p class="cardTitle">${restaurants[i].name}</p>
               <p class="cardTitle">${restaurants[i].phone_number}</p>
               <form>
-                <input type="text" id="number-${restaurants[i].id}" value="${restaurantVote}" readonly="readonly" />
+                <input type="text" id="number-${restaurants[i].id}" value="${restaurants[i].current_vote}" readonly="readonly" />
                 <input type="button" id="button-${restaurants[i].id}" onclick="incrementValue(${userID},${restaurants[i].id})" value="Vote" />
               </form>
             `;
@@ -89,7 +153,6 @@
     }
     getData();
     // Iterate over the restaurants
-    {% comment %} {% endcomment %}
  
     // Add the remaining row to the container
 </script>
