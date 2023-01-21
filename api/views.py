@@ -34,13 +34,15 @@ def create_new_order(request):
 
 @api_view(['POST'])
 def add_votes(request):
-
-    seralizer = VotesSerializer(data=request.data)
-    if seralizer.is_valid():
-        seralizer.save()
-        return Response(seralizer.data)
+    serializer = VotesSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
     else:
-        return Response()
+        for field, errors in serializer.errors.items():
+            for error in errors:
+                print(f"{field}: {error}")
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -54,21 +56,24 @@ def get_votes_data(request):
 
 @api_view(['PUT'])
 def update_restaurant_vote(request):
-    votes = Votes.objects.filter(user=request.data.get(
-        'user'), restaurant=request.data.get('id'))
-    if len(votes) == 0:
+    try:
+        # Get the restaurant object
         restaurant = Resturants.objects.get(pk=request.data.get('id'))
-        serializer = RestaurantSerializer(
-            restaurant, data=request.data, partial=True)
-        restaurant.current_vote += 1
-        if serializer.is_valid():
-            serializer.save()
+        # Check if a vote already exists for the same user and restaurant
+        votes = Votes.objects.filter(user=request.data.get(
+            'user'), restaurant=request.data.get('id'))
+        if len(votes) == 0:
+            # If no vote exists, increment the restaurant's current vote by 1
+            restaurant.current_vote += 1
+            restaurant.save()
+            # Serialize and return the updated restaurant object
+            serializer = RestaurantSerializer(restaurant)
             return Response(serializer.data)
+        else:
+            # If a vote already exists, return a 400 Bad Request with an error message
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={"error": "vote already exists"})
+    except Resturants.DoesNotExist:
+        # If the restaurant does not exist, return a 404 Not Found
+        return Response(status=status.HTTP_404_NOT_FOUND, data={"error": "restaurant not found"})
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return Response(status=status.HTTP_400_BAD_REQUEST, data={"error": "vote already exists"})
-
-
-
-## send and recieve any type of data
+# send and recieve any type of data
