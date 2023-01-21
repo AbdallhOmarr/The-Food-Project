@@ -48,3 +48,11 @@ async function putData(url = '', data = {}) {
     return await response.json(); // parses JSON response into native JavaScript objects
 }
 
+
+// I want to create a fn to post element to the API once the user pressed an element once it will create an order before adding element to the cart
+// after that it will add the element to his cart
+// an order is deleted manually 
+// steps
+// 1. gets data
+// 2. get the url for the api request 
+// 3. use POST method above

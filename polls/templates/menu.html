@@ -3,6 +3,27 @@
 {% block title %}{{restaurant.name}}'s Menu{% endblock %}
 
 {% block body %}
+{% with restaurant_id=restaurant.id %}
+<script>
+    async function addElement() {
+
+        // first part : create a new order if its not exist
+        let data = {
+            "order_num": "TBD",
+            "state": "Ongoing",
+            "resturant": "{{ restaurant_id }}"
+
+
+        };
+        postData('{% url "orderPOST" %}', data)
+            .then((data) => { console.log(data); }) // JSON from `()` call
+            .catch((error) => { console.error(error); });
+
+        //after that add the element to my cart
+    }
+</script>
+{% endwith %}
+
 <div class="container">
     <div>
         <label for="">Restaurant Name:{{restaurant.name}}</label>
@@ -27,7 +48,7 @@
     <div>
         {% for item in items %}
         <div>
-            <a href="" onclick ="">{{item.name}} - {{item.price}} </a>
+            <a href="#" onclick="addElement()">{{item.name}} - {{item.price}} </a>
         </div>
         {% endfor %}
     </div>

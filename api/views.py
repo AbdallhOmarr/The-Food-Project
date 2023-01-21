@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import OrderSerializer, RestaurantSerializer, VotesSerializer
+from .serializers import OrderSerializer, RestaurantSerializer, VotesSerializer, ElementSerializer
 from polls.models import Orders, Resturants, Votes
 from rest_framework import status
 
@@ -29,7 +29,9 @@ def create_new_order(request):
     seralizer = OrderSerializer(data=request.data)
     if seralizer.is_valid():
         seralizer.save()
-    return Response(seralizer.data)
+        return Response(seralizer.data)
+    else:
+        return Response(seralizer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -77,3 +79,27 @@ def update_restaurant_vote(request):
         return Response(status=status.HTTP_404_NOT_FOUND, data={"error": "restaurant not found"})
 
 # send and recieve any type of data
+
+
+# this view fn to add a new element to my cart
+# item should be have data about the element id ,user id, order no, and qty
+
+@api_view(['POST'])
+def addElement(request):
+    # get request data
+    data = request.data
+
+    # example for the data
+    # {
+    #     "state": "Ongoing",
+    #     "resturant": 6
+    # }
+
+    print(f"Data: {data}")
+    # create serializer instance
+    serializer = ElementSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

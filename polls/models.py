@@ -32,6 +32,7 @@ class Elements(models.Model):
         return self.name
 
 class Orders(models.Model):
+    order_num = models.CharField(max_length=200,unique=True)
     created_at = models.DateField(
         auto_now_add=True
     )
@@ -42,11 +43,10 @@ class Orders(models.Model):
     assignee = models.ForeignKey(User,null=True, on_delete = models.CASCADE)
     resturant = models.ForeignKey(Resturants,on_delete = models.CASCADE)
     STATE_CHOICES = (
-        (1, 'Completed'),
-        (2, 'Ongoing'),
-        (3,'Cancelled'),
+        ('Completed', 'Completed'),
+        ('Ongoing', 'Ongoing'),
+        ('Cancelled','Cancelled'),
     )
-
     state = models.CharField(max_length=50, choices=STATE_CHOICES)
 
 
@@ -64,4 +64,7 @@ class OrdersElements(models.Model):
     orders = models.ForeignKey(Orders, on_delete=models.CASCADE)    
     def __str__(self):
         return self.order_number
+    
+
+
     
